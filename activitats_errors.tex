@@ -1,0 +1,322 @@
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Activitats Tema 1. Aritmètica Finita i Control d'Errors
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[slidetop,compress,mathserif,10pt]{beamer}
+%\setbeamertemplate{theorems}[numbered]
+\setbeamertemplate{caption}[numbered]
+
+\usepackage{ragged2e}
+\usepackage{amsmath,amssymb}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+\usepackage{enumerate}
+\usepackage{wrapfig}
+\usepackage[catalan]{babel}
+\selectlanguage{catalan}
+\usepackage[utf8]{inputenc}
+\usepackage[rightcaption]{sidecap}
+
+\usepackage{ifpdf}
+\usepackage{graphicx}
+\DeclareGraphicsExtensions{.eps}
+\usepackage{subfigure}
+\usepackage{shortlst}
+\usepackage{tabu}
+\usepackage{listings}
+\lstset {%
+  language=C++,
+  showstringspaces=false
+}
+
+%-----------------------------------------------------------------------------
+%pdflatex,
+%Macros para producir hyperlinks
+\DeclareGraphicsExtensions{.pdf,.jpg,.png}
+\hypersetup{
+  pdfauthor   = {Equip Docent ALN},
+  pdftitle    = {Activitats Tema 1: Arim\`{e}tica Finita i Control d'Errors},
+  pdfsubject  = {ALN 200151},
+    pdfstartview = {},
+    colorlinks  = {true},
+    bookmarksnumbered = {true},
+    hyperindex  = {true}
+}
+\pdfadjustspacing=1
+\usepackage{url}
+
+% THEOREMS -------------------------------------------------------------------
+\newtheorem{thm}{Teorema}%[section]
+\newtheorem{cor}[thm]{Coro\lgem ari}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{prop}[thm]{Proposició}
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definició}
+\theoremstyle{remark}
+\newtheorem{rem}{Remarca}
+\newtheorem{ex}{Exemple}
+
+\newenvironment{demo}
+{\textsc{Demostració. }}{\quad \hfill $\blacksquare$}
+
+% MATH -----------------------------------------------------------------------
+\newcommand{\norm}[1]{\left\Vert#1\right\Vert}
+\newcommand{\abs}[1]{\left\vert#1\right\vert}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\bs}[1]{\ensuremath{\boldsymbol{#1}}}
+\newcommand{\C}{\ensuremath{\mathbb{C}}}
+\newcommand{\R}{\ensuremath{\mathbb{R}}}
+\newcommand{\N}{\ensuremath{\mathbb{N}}}
+\newcommand{\M}{\ensuremath{\mathbb{M}}}
+\newcommand{\Z}{\ensuremath{\mathbb{Z}}}
+\newcommand{\eps}{\ensuremath{\epsilon}}
+\newcommand{\veps}{\ensuremath{\varepsilon}}
+\newcommand{\To}{\longrightarrow}
+\newcommand{\BX}{\mathbf{B}(X)}
+\newcommand{\A}{\mathcal{A}}
+\newcommand{\Or}{\mathcal{O}}
+
+\newcommand{\argcosh}{\ensuremath{\mathrm{argcosh}}\,}
+\newcommand{\argsinh}{\ensuremath{\mathrm{argsinh}}\,}
+\newcommand{\argtanh}{\ensuremath{\mathrm{argtanh}}\,}
+\newcommand{\argcoth}{\ensuremath{\mathrm{argcoth}}\,}
+
+\newcommand{\rme}{\mathrm{e}}
+\newcommand{\rmi}{\mathrm{i}}
+\newcommand{\rmd}{\mathrm{d}}
+
+\newcommand{\re}{\mathrm{Re\:}}
+\newcommand{\im}{\mathrm{Im\:}}
+
+\newcommand{\wt}[1]{\ensuremath{\widetilde{#1}}}
+
+\DeclareMathOperator{\Hessian}{Hess}
+% ----------------------------------------------------------------------------
+
+\newcommand{\gl}{\guillemotleft}
+\newcommand{\gr}{\guillemotright}
+\newcommand{\sst}{\ensuremath{\scriptstyle}}
+\renewcommand{\thefootnote}{\fnsymbol{footnote}} %{$\scriptstyle (*)$}
+
+% Counters -------------------------------------------------------------------
+\newcounter{saveenum}
+
+%-----------------------------------------------------------------------------
+\beamersetuncovermixins{\opaqueness<1>{25}}{\opaqueness<2->{15}}
+\setbeamertemplate{caption}[numbered]
+\setbeamerfont{caption}{size=\scriptsize}
+
+\newenvironment<>{varblock}[2][\textwidth]{%
+  \setlength{\textwidth}{#1}
+  \begin{actionenv}#3%
+    \def\insertblocktitle{#2}%
+    \par%
+    \usebeamertemplate{block begin}}
+  {\par%
+    \usebeamertemplate{block end}%
+  \end{actionenv}}
+
+\begin{document}
+ \title[]{%
+ {\Large ALN (200151)}\\
+  {\large 1. Aritm\`{e}tica Finita i Control d'Errors}
+ }
+
+\date{}
+\maketitle
+
+%------------------------------- Activitat 1 ----------------------------------
+\begin{frame}[fragile]\justifying
+\begin{itemize}
+\item[1.]\justifying (\`{E}psilon de m\`{a}quina). Es defineix el concepte de
+	``\`{e}psilon de m\`{a}quina'' com el nombre positiu $\epsilon$ 
+	m\'{e}s	petit que sumat a $1$ d\'{o}na diferent de $1$. \'{E}s a dir:
+    	\begin{displaymath}
+      		\epsilon:=\min\{\varepsilon > 0: 
+			\mathrm{fl}(1+\varepsilon) > 1\}.
+    	\end{displaymath}
+	calculeu l'\`{e}psilon de m\`{a}quina tant en precisi\'{o} simple
+    	(\texttt{float}) com en precisi\'{o} doble (\texttt{double}). 
+\end{itemize}
+\begin{rem}\justifying
+En \texttt{C/C++} podem conèixer directament l'èpsilon de la màquina amb les 
+constants \texttt{FLT\_EPSILON} (per a precisió simple) i \texttt{DBL\_EPSILON} 
+(per a precisió) doble. Totes dues definides a la llibreria \texttt{cfloat}:
+\begin{lstlisting}
+...
+#include<cfloat>
+...
+cout << "eps (single) = " << FLT_EPSILON << endl;
+cout << "eps (double) = " << DBL_EPSILON << endl;
+...
+\end{lstlisting}
+\end{rem}
+\end{frame}
+
+%------------------------------- Activitat 2 ----------------------------------
+\begin{frame}\justifying
+\begin{itemize}
+\item[2.]\justifying 
+	(Exercici 4 de la co\lgem ecció: suma de la s\`{e}rie harm\`{o}nica 
+	generalitzada). Useu arit\-m\`{e}\-ti\-ca de 3 d\'{\i}gits amb 
+	eliminaci\'{o} per a calcular la suma
+   	\begin{displaymath}
+    		S_{15}=\sum_{n=1}^{15}\frac{1}{n^{2}}, 
+    	\end{displaymath}
+    	primer en `'l'ordre natural'' (decreixent), i.e.,
+    	\begin{displaymath}
+    		S_{15}=\frac{1}{1} + \frac{1}{4}
+    			+ \dots 
+    			+ \frac{1}{255},
+  	\end{displaymath}
+  	i despr\'{e}s en l'ordre ``invers'' (creixent), i.e.,
+  	\begin{displaymath}
+    		S_{15}=\frac{1}{255}+ \frac{1}{196} + \dots
+    			+ \frac{1}{1}.
+  	\end{displaymath}
+    	Decidiu quin \'{e}s
+    	el m\`{e}tode m\'{e}s exacte de tots dos. \emph{Nota:} recordeu 
+	l'exercici $3$. 
+\end{itemize}
+\end{frame}
+
+%------------------------------- Activitat 3 ----------------------------------
+\begin{frame}\justifying
+\begin{itemize}\justifying	
+\item[3.] (Pot\`{e}ncies del rec\'{\i}proc del nombre d'or). Sigui $\Phi =
+      \frac{\sqrt{5}+1}{2}$ el nombre d'or (o proporci\'{o}, o ra\'{o}
+      \`{a}uria) i $\phi$ el seu rec\'{\i}proc (invers multiplicatiu), 
+      aix\`{o}  \'{e}s: $\phi = \frac{\sqrt{5} -1}{2}$. Es comprova d'immediat 
+      que $-\Phi$ i $\phi$ s\'{o}n les dues arrels de l'equaci\'{o} de 
+      2on.~grau
+      \begin{displaymath}
+        	x^{2}+x-1 = 0.
+      \end{displaymath}
+      Basant-vos en aix\`{o}, justifiqueu els tres algorismes seg\"{u}ents
+\begin{enumerate}
+\item[A1:]\justifying
+  \begin{displaymath}
+    \phi^{0}=1,\quad \phi^{1}= \phi,\quad \phi^{k}=\phi\cdot\phi^{k-1},
+   \tag{\mbox{per a $k=2,3,\dots$}} 
+    \end{displaymath}
+\item[A2:]
+  \begin{displaymath}
+  \phi^{0}=1,\quad \phi^{1}= \phi,\quad \phi^{2} = 1-\phi,\quad
+  \phi^{k} = \phi^{k-2}\cdot(1-\phi),
+  \tag{\mbox{per a $k=3,4,\dots$}} 
+\end{displaymath}
+\item[A3:]
+  \begin{displaymath}
+  \phi^{0}=1,\quad \phi^{1}= \phi,\quad \phi^{2} = 1-\phi,\quad
+  \phi^{k} = \phi^{k-2}-\phi^{k-1},
+   \tag{\mbox{per a $k=3,4,\dots$}} 
+\end{displaymath}
+\end{enumerate}
+per a calcular les pot\`{e}ncies successives de $\phi$. Escriviu un 
+programa $\texttt{C/C++}$ que compari tots tres algorismes. 
+\end{itemize}
+\end{frame}
+
+%------------------------------- Activitat 4 ----------------------------------
+\begin{frame}\justifying
+\begin{itemize}	
+\item[4.] (Exercici 9 de la co\lgem ecció). Usant un m\`{e}tode recurrent, 
+	calculeu el valor de les integrals,
+	\begin{displaymath}
+        	J_{k} = \int_{0}^{1} x^{k}\sin(\pi x)\rmd x,
+      	\end{displaymath}
+      	($j = 2,4,\dots,20$). En concret:
+\begin{enumerate}[4.1]\justifying
+\item Demostreu que:
+\begin{equation}\label{eq:Jk}
+\begin{split}
+   J_{0} &= \frac{2}{\pi},\\
+   J_{1} &=\frac{1}{\pi},\\ 
+   J_{k} &= \frac{1}{\pi}-\frac{k(k-1)}{\pi^{2}}J_{k-2},\qquad
+            k=2,3,4,\dots
+\end{split}
+\end{equation}
+\item Fent servir la recurr\`{e}ncia~\eqref{eq:Jk}, calcueu
+      $J_{k}$ per a $k = 2,4,6\dots,20$. \'{E}s estable l'algorisme
+	trobat? Per qu\`{e}? \textbf{Nota:} direm que un algorisme és
+	\emph{estable} si els errors en les aproximacions
+	s'esmorteeixen al llarg de les iteracions. Si, pel contrari,
+	 s'amplifiquen, direm que és \emph{inestable}.
+\item Dissenyeu un algorisme alternatiu que eviti els problemes
+       detectats al punt anterior. \emph{Ajut:} considereu~\eqref{eq:Jk}
+\end{enumerate} 
+\end{itemize}
+\end{frame}
+
+%------------------------------- Activitat 5 ----------------------------------
+\begin{frame}[shrink=2]
+\vspace{\baselineskip}
+\begin{itemize}
+\item[5.]\justifying 
+	 Feu un programa en \texttt{C/C++} que avalu\"{\i} el polinomi de 
+	 McLaurin $p_N(x)$ de grau $N$ de la funci\'o $f(x)=\rme^x$ en 
+	 un punt donat $x$. Empreu la \emph{regla de Horner}.
+\end{itemize}
+\end{frame}
+
+\begin{frame}%\justifying
+\vspace{\baselineskip}
+\begin{itemize}
+\item[6.]\justifying (Suma d'una sèrie alternada) Volem comparar les
+	aproximacions de $\rme^{-2}$ amb tres m\`etodes	diferents:
+\begin{enumerate}[6.1]%[\sl ({\ref{exer:serieAlt}}.1)] 
+\item\justifying Fent servir la funci\'o {\tt exp(x)} proporcionada a la
+		 llibreria {\tt math.h} de \texttt{C}.  
+\item\justifying Aproximant $\rme^{-2}$ per $p_{10}(-2)$, programat al 
+		problema $5$.  
+\item Usant $q_{10}(-2):=1/p_{10}(2)$.
+\end{enumerate}
+Aleshores:
+\begin{itemize}%\justify
+\item\justify Escriviu un programa en \texttt{C/C++} que calculi i
+		tregui per pantalla (o b\'{e} escrigui a un fitxer) el 
+		valor de les tres aproximacions:
+\begin{displaymath}
+	\texttt{exp(-2)},\qquad p_{10}(-2),\qquad q_{10}(-2)
+\end{displaymath}
+		i de les estimacions dels corresponents errors absoluts 
+		i relatius, donades respectivament per
+\begin{align*}
+	\varepsilon_{a}\left(\texttt{exp(-2)}\right)&\approx
+   	\bar{p}(-2)-\texttt{exp(-2)},\\
+	\varepsilon_{r}\left(\text{\texttt{exp(-2)}}\right)&\approx
+    		\frac{\varepsilon_{a}\left(\texttt{exp(-2)}\right)}
+    		{\texttt{exp(-2)}},
+\end{align*}
+		on $\bar{p} = p_{10}$, $q_{10}$. Amb aquest resultats 
+		completeu la Taula~\ref{taula:exp}. Feu-lo tant per  
+		precisi\'o simple (\texttt{float}) com per doble 
+		(\texttt{double}).
+\end{itemize}
+\begin{itemize}
+\item Feu el mateix amb $\rme^{-7}$. Comenteu els resultats en
+	ambd\'os casos.
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+%------------------------------- Activitat 6 ----------------------------------
+\begin{frame}[shrink=2]
+\renewcommand{\arraystretch}{1,5}
+\begin{table}[!t]
+\begin{tabu} to \textwidth {|c|X[c]||X[c]|X[c]|}\hline
+\texttt{exp(-2)} &         &  $e_{a}$    &   $e_{r}$ \\ \hline
+$p_{10}(-2)$      &         &            &           \\ \hline
+$q_{10}(-2)$      &         &            &           \\\hline
+\end{tabu}
+\caption%
+{Comparaci\'o en el c\`alcul d'aproximacions de $\rme^{-2}$.}%
+\label{taula:exp}
+\end{table}
+\end{frame}
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

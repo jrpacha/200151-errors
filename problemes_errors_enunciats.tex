@@ -1,0 +1,209 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Tema 1. Problemes. Aritmètica Finita i Control d'Errors
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[a4paper,twoside,12pt]{exam}
+\usepackage{problemes}
+
+\def\assignatura{\`{A}lgebra Lineal Num\`{e}rica}
+\def\codi{200151}
+\def\GrauMaster{MAT}
+\def\EscolaFacultat{FME}
+
+\hypersetup{
+  pdfauthor   = {Equip Docent ALN},
+  pdftitle    = {Problemes Tema 1: Arim\`{e}tica Finita i Control d'Errors},
+  pdfsubject  = {Problemes}
+}
+
+\renewcommand{\solutiontitle}%
+{\noindent\textbf{Solució:}\enspace}
+
+\pagestyle{head}
+\firstpageheader{\EscolaFacultat}%
+		{\assignatura~(\codi)}%
+		{\thepage}%
+\firstpageheadrule
+
+\runningheader{}{\thesection.~\currentname}{\thepage}
+\runningheadrule
+
+\bracketedpoints
+\unframedsolutions
+
+\newcommand{\osnp}[1]{\oldstyle{\np{#1}}}
+\npdecimalsign{.}
+\npthousandsep{\,}
+\npproductsign{\times}%
+
+\renewcommand{\choicelabel}{(\roman{choice})}
+
+\begin{document}
+\section{Aritmètica finita i control d'errors}
+%\setcounter{problema}{0}
+
+\begin{questions}
+%--------------------------------- Problema 1 --------------------------------
+\question\label{prob:1}
+Calculeu $f(x) = 1 - \cos(x)$ amb aritmètica de coma flotant de $\osnp{6}$
+dígits, per a $|x| < \osnp{e-3}$. És fiable el resultat? Feu el mateix amb la
+representació de $f(x)$ 
+\begin{displaymath}
+	f(x) = \frac{\sin^{2}(x)}{1 + \cos(x)}.
+\end{displaymath}
+Trobeu una altra representació alternativa per a $f(x)$ que sigui vàlida per a
+$|x|$ petit.
+\begin{solution}
+	Solució del problema~\ref{prob:1}.
+\end{solution}
+
+%--------------------------------- Problema 2 --------------------------------
+\question\label{prob:2}
+Se sap que la sèrie $\sum_{n=1}^{\infty}1/n$ és divergent. No obstant
+això, si la intentem ``sumar'' en un ordinador usant precisió simple (per
+qüestions de temps) dóna un valor concret. Trobeu aquest valor i expliqueu
+aquest fenomen. 
+\begin{solution}
+	Solució del problema~\ref{prob:2}.
+\end{solution}
+
+%--------------------------------- Problema 3 --------------------------------
+\question\label{prob:3}
+Si usem un ordinador que comet errors relatius fitats per $\epsilon$ en la
+representació i en les operacions aritmètiques, fiteu l'error comès en el càlcul
+de $\sum_{i=1}^{n} x_{i}$.
+\begin{solution}
+	Solució del problema~\ref{prob:3}.
+\end{solution}
+
+%--------------------------------- Problema 4 --------------------------------
+\question\label{prob:4}
+Useu aritmètica de $3$ dígits amb tall per a calcular la suma 
+$\sum_{i=1}^{15} 1/i^{2}$ primer en l'ordre natural, 
+$\osnp{1} + \osnp{1}/\osnp{4} + \dots + \osnp{1}/\osnp{225}$,
+i després a l'inrevés, $\osnp{1}/\osnp{225} + \osnp{1}/\osnp{196} +\dots +
+\osnp{1}/\osnp{4} + \osnp{1}$. Decidiu quin és el mètode més exacte de tots 
+dos. 
+\begin{solution}
+	Solució del problema~\ref{prob:4}.
+\end{solution}
+
+%--------------------------------- Problema 5 --------------------------------
+\question\label{prob:5}
+Demostreu que en l'operació $\sqrt{x}$ l'error relatiu és aproximadament la
+meitat de l'error relatiu en les dades. Direm que l'operació de fer $\sqrt{x}$
+és una operació \emph{segura} respecte de l'error relatiu. Feu patent la
+``inseguretat'' de l'operació $f(x) = \frac{1}{1-x^{2}}$ per a $x\simeq\osnp{1}$.
+(Suposeu que tenim errors només en la representació de les dades). 
+\begin{solution}
+	Solució del problema~\ref{prob:5}.
+\end{solution}
+
+%--------------------------------- Problema 6 --------------------------------
+\question\label{prob:6}
+Donat el sistema d'equacions lineals
+\begin{align*}
+	3\,x + a\,y &= 10\\
+	5\,x + b\,y &= 20
+\end{align*}
+on $a = \osnp{2.100}\osnp{+-5e-4}$ i $b = \osnp{3.300}\osnp{+-5e-4}$; amb quina
+exactitud pot ser determinat $x+y$? (Suposant operacions exactes).
+\begin{solution}
+	Solució del problema~\ref{prob:6}.
+\end{solution}
+
+%--------------------------------- Problema 7 --------------------------------
+\question\label{prob:7}
+Treballant amb $5$ xifres decimals, calculeu
+\begin{displaymath}
+	\sqrt[k]{\osnp{2.15283}} - \sqrt[k]{\osnp{2.15263}},\qquad\qquad
+	k=2,3,4.
+\end{displaymath}
+\begin{parts}
+	\part Directament.
+	\part Usant fórmules millors des del punt de vista numèric. (Indicació:
+		Feu la divisió de polinomis $(a^{k} - b^{k})/(a-b)$).
+	\part Compareu els resultats i comenteu-los.
+\end{parts}
+\begin{solution}
+	Solució del problema~\ref{prob:7}.
+\end{solution}
+
+%--------------------------------- Problema 8 --------------------------------
+\question\label{prob:8}
+Es vol calcular $f_{n}(x)$, on $f_{n}(x) = n!\left[\rme^{x} -
+	\left(1 + x + \frac{x^{2}}{2!} + \dots + \frac{x^{n}}{n!}\right)
+\right]$, per a $x = \osnp{1}$, $n=\osnp{0},\osnp{1},\osnp{2},\dots$
+\begin{parts}
+	\part Demostreu que se satisfà la següent llei de recurrència
+	\begin{displaymath}
+		f_{n+1}(x) = (n+1) f_{n}(x) - x^{n+1},
+	\end{displaymath}
+	\part Calculeu $f_{n}(1)$, $n=1\div 10$ amb aritmètica de coma
+	flotant amb $5$ dígits significatius. És fiable el resultat?
+	Què es pot fer per a calcular $f_{5}(1)$?
+\end{parts}
+\begin{solution}
+	Solució del prooblema~\ref{prob:8}.
+\end{solution}
+
+%--------------------------------- Problema 9 --------------------------------
+\question\label{prob:9}
+Usant un mètode recurrent, calculeu el valor de les integrals
+\begin{displaymath}
+	I_{j} = \int_{0}^{1} x^{j}\sin(\pi x)\,\rmd x,
+\end{displaymath}
+($j=2,4,\dots,20$). Estudieu l'estabilitat del mètode trobat.
+\textbf{Nota:} en general, direm que un mètode és \emph{estable} si esmorteeix
+els errors fets en les aproximacions. Quan, pel contrari, els amplifica, direm
+que el mètode és \emph{inestable}.
+\begin{solution}
+	Solució del problema~\ref{prob:10}
+\end{solution}
+
+%--------------------------------- Problema 10 -------------------------------
+\question\label{prob:10}
+Volem calcular
+$a = \left(\osnp{7} - \osnp{4}\sqrt{\osnp{3}}\right)^{\osnp{4}}$
+emprant el valor aproximat $\osnp{1.73205}$ per a $\sqrt{\osnp{3}}$.
+Prenem dues fórmules per a calcular $a$:
+
+\begin{oneparchoices}
+	\choice $\dfrac{\osnp{1}}{\left(\osnp{7} + 
+	\osnp{4}\sqrt{\osnp{3}}\right)^{4}}$, 
+	\choice $\dfrac{\osnp{1}}{\osnp{18817} +\osnp{10864}
+	\sqrt{\osnp{3}}}$.
+\end{oneparchoices}
+
+Quina és la més adequada des del punt de vista numèric (suposant que
+les operacions es fan sense errors)?
+\begin{solution}
+	Solució del problema~\ref{prob:10}.
+\end{solution}
+
+%--------------------------------- Problema 11 -------------------------------
+\question\label{prob:11}
+Doneu una expressió equivalent per a cadascuna de les fórmules següents
+que sigui millor des del punt de vista numèric, quan $\varepsilon$ és
+molt més petit que $x$.
+\begin{parts}
+	\part $\dfrac{1}{\sqrt{x-\varepsilon}} - \dfrac{1}{\sqrt{x}}$.
+	\part $\sin(x+\varepsilon) - \sin(x)$.
+	\part $\cos(x+\varepsilon) - \cos(x)$.
+	\part $\displaystyle\int_{x}^{x+\varepsilon}\dfrac{\rmd t}{t}$.
+\end{parts}
+\begin{solution}
+	Solució del problema~\ref{prob:11}. 
+\end{solution}
+
+%--------------------------------- Problema 12 -------------------------------
+\question\label{prob:12}
+Amb quina exactitud s'ha de mesurar el radi d'una esfera i amb quants 
+decimals cal donar el nombre $\pi$ perquè el seu volum es conegui amb 
+un error relatiu menor que el $\osnp{0.01}$\%? Considereu ambdós 
+efectes per separat.
+\begin{solution}
+	Solució del problema~\ref{prob:12}.
+\end{solution}
+\end{questions}
+
+\end{document}

@@ -1,0 +1,219 @@
+% Page size ===================================================================
+
+\usepackage[a4paper,
+            inner=1.25cm,
+	    outer=1cm,
+	    top=2cm,
+	    bottom=1.25cm,
+	    headsep=0.75cm]{geometry}
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{indentfirst}
+\usepackage{enumerate}
+\usepackage{ragged2e}
+\usepackage{mathtools}
+\usepackage{array}
+\usepackage{relsize}
+\usepackage{booktabs}
+\usepackage{comment}
+\usepackage[T1]{fontenc}
+\usepackage{oldstyle}
+\usepackage[np]{numprint}
+\usepackage{listings}
+\usepackage{float}
+\usepackage[labelsep=period]{caption}
+
+\usepackage[utf8]{inputenc}
+\usepackage[catalan]{babel}
+
+\usepackage{titleref}
+\makeatletter
+\newcommand*{\currentname}{\TR@currentTitle}
+\makeatother
+
+% Useful macros ===============================================================
+\newcommand{\ra}[1]{\renewcommand{\arraystretch}{#1}}
+\newcommand{\stcomp}[1]{{#1}^\complement}
+\newcommand{\stext}[1]{\ensuremath{\mathrm{ext}{#1}}}
+
+\newcommand{\PreserveBackslash}[1]
+{\let\temp=\\#1\let\\=\temp}   
+\newcolumntype{C}[1]{>{\PreserveBackslash\centering}p{#1}}
+\newcolumntype{R}[1]{>{\PreserveBackslash\raggedleft}p{#1}}
+\newcolumntype{L}[1]
+{>{\PreserveBackslash\raggedright}p{#1}}
+
+% Numbers =====================================================================
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\T}{\mathbb{T}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\E}{{\mathbb{E}}}
+
+\newcommand{\fl}[2]{\ensuremath{f\ell}_{\mathrm{#1}}\left(#2\right)}
+
+% Letters =====================================================================
+\newcommand\veps\varepsilon
+\newcommand\A{{\mathcal A}}
+\newcommand\Cc{{\mathcal C}}
+\newcommand\D{{\mathcal D}}
+\newcommand\I{{\mathcal I}}
+\newcommand\M{{\mathcal M}}
+\newcommand\Tc{{\mathcal T}}
+\newcommand\U{{\mathcal U}}
+\newcommand\V{{\mathcal V}}
+\newcommand\W{{\mathcal W}}
+\newcommand\Zc{{\mathcal Z}}
+\newcommand\const{{\rm const}}
+
+% Changing formula size =======================================================
+\newcommand\ts{\textstyle}
+\newcommand\ds{\displaystyle}
+
+% Brackets and norms ==========================================================
+\newcommand\p[1]{\left(#1\right)}
+\newcommand\pp[1]{\left\{#1\right\}}
+\newcommand\scprod[2]{\left\langle#1,#2\right\rangle}
+\newcommand\abs[1]{\left|#1\right|}
+\newcommand\absu[1]{\abs{#1}_1}
+
+% Math macros =================================================================
+\newcommand{\Mat}[2]{\ensuremath\mathcal{M}_{#1}(#2)}
+\newcommand{\GL}[2]{\ensuremath\mathrm{GL}_{#1}(#2)}
+\newcommand{\setU}{\ensuremath{\mathcal{U}}}
+\newcommand{\id}[1]{\ensuremath{\mathbb{I}_{#1}}}
+\newcommand{\approxtext}[1]{\ensuremath{\stackrel{\text{\scriptsize #1}}%
+	{\approx}}}
+\newcommand{\eqtext}[1]{\ensuremath{\stackrel{\text{\scriptsize #1}}{=}}}
+\newcommand\pd[2]{\partial_{#2}#1} %partial derivative
+\newcommand\spi[1]{^{\p{#1}}}
+\newcommand{\wt}[1]{\ensuremath\widetilde{#1}}
+\newcommand{\wh}[1]{\ensuremath\widehat{#1}}
+\newcommand\Ord{{\mathcal O}}
+\newcommand{\spec}{\ensuremath\mathrm{spec}}
+\newcommand{\diag}{\ensuremath\mathrm{diag}}
+\newcommand\h{{\rm h}}
+\newcommand\st{{\rm s}}  %stable
+\newcommand\ut{{\rm u}}  %unstable
+\newcommand\ct{{\rm c}}  %centre
+\newcommand\cs{{\rm cs}} %centre-stable
+\newcommand\cu{{\rm cu}} %centre-unstable
+\newcommand\loc{{\rm loc}}
+\newcommand\Id{{\rm Id}}
+\newcommand\df{{\,\rm d}}
+\newcommand{\rmd}{\ensuremath{\mathrm{d}}}
+\newcommand{\rmi}{\ensuremath{\mathrm{i}}}
+\newcommand{\rme}{\ensuremath{\mathrm{e}}}
+\newcommand{\ball}[3]{\ensuremath{
+	   	\mathcal{B}_{#1}^{#2}\!\left( #3 \right)}}
+\newcommand{\clball}[3]{\ensuremath{
+	   	\overline{\mathcal{B}}_{#1}^{#2}\!\left( #3 \right)}}
+\newcommand{\dist}[2]{\ensuremath{\mathrm{dist}\!\left( #1, #2\right)}}
+\newcommand{\distp}[3]%
+		{\ensuremath{\mathrm{dist}^{#1}\!\left( #2, #3\right)}}
+\newcommand{\Dom}[1]{\ensuremath{\mathcal{D}\!\left(#1\right)}}
+\newcommand{\Ran}[1]{\ensuremath{\mathcal{R}\!\left(#1\right)}}
+\newcommand{\Gra}[1]{\ensuremath{\mathcal{G}\!\left(#1\right)}}
+\newcommand{\QED}{\ensuremath{\square}}
+\DeclareMathOperator*{\limc}{\text{\rm l\'{\i}m}}
+\def\cprime{\/$'$}
+\def\p{{\partial}}
+\def\dfrac{\displaystyle\frac}
+\def\dint{\displaystyle\int}
+
+% Environments ================================================================
+\newtheorem{teor}{Teorema}[section]
+
+%\newcommand\comment[1]{\textbf{[[}\emph{#1}\textbf{]]}\ }
+%\newtheoremstyle{cor}
+%  {\topsep}   % ABOVESPACE
+%  {\topsep}   % BELOWSPACE
+%  {\itshape}  % BODYFONT
+%  {0pt}       % INDENT (empty value is the same as 0pt)
+%  {\bfseries} % HEADFONT
+%  {:}         % HEADPUNCT
+%  {5pt plus 1pt minus 1pt} % HEADSPACE
+%  {}          % CUSTOM-HEAD-SPEC
+
+\newtheorem{prop}{Proposici\'{o}}[section]
+\newtheorem{lemma}{Lema}
+\newtheorem*{corollary}{Coro\lgem ari}
+\theoremstyle{definition}
+\newtheorem{definition}{Definici\'{o}}[section]
+\newtheorem*{notation}{Notaci\'{o}}
+\newtheorem*{cp}{Cas prticular}
+\newtheorem{rem}{Remarca}[section]
+\newtheorem{exmp}{Exemple}[section]
+\newtheorem{ex}{Exercici}[section]
+\newenvironment{sol}
+{\renewcommand\qedsymbol{$\triangleright$}\vspace{-0,75\baselineskip}
+  \begin{proof}[$\triangleleft$ Soluci\'{o}]}
+  {\end{proof}}
+\newenvironment{solEq}
+{\renewcommand\qedsymbol{}\vspace{-0,75\baselineskip}
+  \begin{proof}[$\triangleleft$ Soluci\'{o}]}
+  {\end{proof}
+	\vspace{-0,5\baselineskip}}
+\newenvironment{hint}
+{\renewcommand\qedsymbol{}\vspace{-\baselineskip}
+\begin{proof}[Indicaci\'{o}]}
+  {\end{proof}}
+
+\newenvironment{remarks}
+  {\pagebreak[3]\noindent{\bf Remarques.}\begin{enumerate}}
+  {\end{enumerate}\bigskip}
+\newenvironment{hypotheses}
+  {\pagebreak[3]\noindent{\bf Hypotheses.}\begin{itemize}}
+  {\end{itemize}\bigskip}
+
+% Macros para producir hyperlinks =============================================
+\usepackage[pagebackref,colorlinks,bookmarksnumbered,breaklinks=true,
+            colorlinks=true,pdfstartview=FitH,linkcolor=blue,citecolor=red,
+            urlcolor=magenta,pdfstartview={}]{hyperref}
+%\hypersetup{
+%	 pdfauthor   = {J.R. Pacha},
+%	 pdftitle    = {Problemes},
+%	 pdfsubject  = {Problemes}
+%}
+%
+\pdfadjustspacing=1
+\usepackage{url}
+
+% Macro para a\~{n}adir un link al MathSciNet ======================================
+ \newcommand{\mref}[2]{%
+ \href{http://www.ams.org/mathscinet-getitem?mr=#1}%
+ {#2}%\hspace{-3pt}
+ }
+% Macro para a\~{n}adir un link a amazon.com (EEUU) ================================
+ \newcommand{\amazon}[2]{%
+ \href{http://amazon.com/o/ASIN/#1}{amazon.com: #1}}
+
+% Misc =============================================================================
+\newif\ifresolved
+%\resolvedtrue
+\def\resol#1{\ifresolved  \ {#1}
+  \else \hspace{17.5cm} \hfill\fi}
+
+% Nota: about how to include source code in our LaTeX documents 
+% https://en.wikibooks.org/wiki/LaTeX/Source_Code_Listings
+
+%\lstdefinestyle{customc}{
+%  frame=tb,
+%  breaklines=true,
+%  language=c,
+%  basicstyle=\footnotesize\ttfamily,
+%  captionpos=b,
+%  showstringspaces=false
+%}
+%
+%\lstset{escapechar=@, style=customc}
+%
+%\newcommand{\includecode}[2][c]
+% {\lstinputlisting[caption=#2, escapechar=,
+%   style=custom#1]{#2}<!---->}
+%
