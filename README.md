@@ -1,6 +1,16 @@
 # 200151 Àlgebra Lineal Numèrica
-## Pràctiques
-### Sessió 1. Aritmètica Finita i Control d'Errors
+## Tema 1. Aritmètica Finita i Control d'Errors
+* <tt>problemes_errors_enunciats.tex</tt>: A collection of exercises 
+      ($\LaTeX$ fonts).
+* <tt>problemes_errors_enunciats.pdf</tt>: A collection of exercises
+      (generated PDF document) 
+* <tt>problemes.sty</tt>: $\LaTeX$ style file required to compile 
+      <tt>problemes_errors_enunciats.pdf</tt> from
+      <tt>problemes_errors_enunciats.tex</tt>.
+* <tt>activitats_errors.tex</tt>: Practices ($\LaTeX$ fonts).
+* <tt>activitats_errors.pdf</tt>: Practices (generated PDF document).
+
+### Source code for the practices
 
 Activitat | Related source code 
 ----------|---------------------
@@ -18,7 +28,7 @@ Use <tt>$ make</tt> to build all the programs. Recall,
 </p>
 
 **Disclaimer.** The source codes found here here are given just as examples. For
-sure, they're far from being optimal, and by no means they must subtitute your
+sure, they're far from being optimal, and by no means they should substitute your
 work. Remember that you must write all the programs on your own!
 
 If you find any mistakes (or have any suggestions), please report them to
