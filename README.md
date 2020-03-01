@@ -7,7 +7,7 @@ Activitat | Related source code
  1| <tt>epsilon.cc</tt>
  2| <tt>sumshg.cc</tt>, <tt>errors.cc</tt>, <tt>errors.h</tt>, <tt>rounding.cc</tt>
  3| <tt>fibonacci.cc</tt>, <tt>fibonacci.f90</tt> (Fortran)
- 4| <tt>recursion.cc</tt>, <tt>activitat4.mw</tt> (Maple), <tt>approx.mpl</tt> (Maple), <tt>chop.mpl</tt> (Maple) 
+ 4| <tt>recursion.cc</tt>, <tt>recursion.mw</tt> (Maple), <tt>approx.mpl</tt> (Maple), <tt>chop.mpl</tt> (Maple) 
  5| <tt>mcLaurinExp.cc</tt>
  6| <tt>expM.cc<tt>
 
