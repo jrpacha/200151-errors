@@ -21,15 +21,15 @@ Activitat | Related source code
  5| <tt>mcLaurinExp.cc</tt>
  6| <tt>expM.cc<tt>
 
-Use <tt>$ make</tt> to build all the programs. Recall,
+Use <tt>$ make</tt> to build all the programs. Remember,
 
 <p align="center">
-<em>Seven programs and one only Makefile to compile them all...</em>
+<em>Seven programs and one Makefile to compile them all...</em>
 </p>
 
 **Disclaimer.** The source codes found here here are given just as examples. For
 sure, they're far from being optimal, and by no means they should substitute your
-work. Remember that you must write all the programs on your own!
+work. We stress that you must write all the programs on your own!
 
 If you find any mistakes (or have any suggestions), please report them to
 
