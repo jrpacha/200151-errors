@@ -24,7 +24,7 @@ Activitat | Related source code
 Use <tt>$ make</tt> to build all the programs. Remember,
 
 <p align="center">
-<em>Seven programs and one Makefile to compile them all...</em>
+<em>Seven programs and One Makefile to compile them all...</em>
 </p>
 
 **Disclaimer.** The source codes found here here are given just as examples. For
