@@ -4,11 +4,11 @@
       ($\LaTeX$ fonts).
 * <tt>problemes_errors_enunciats.pdf</tt>: A collection of exercises
       (generated PDF document) 
-* <tt>problemes.sty</tt>: $\LaTeX$ style file required to compile 
-      <tt>problemes_errors_enunciats.pdf</tt> from
-      <tt>problemes_errors_enunciats.tex</tt>.
-* <tt>activitats_errors.tex</tt>: Practices ($\LaTeX$ fonts).
-* <tt>activitats_errors.pdf</tt>: Practices (generated PDF document).
+* <tt>problemes.sty</tt>: $\LaTeX$ style file to compile 
+      <tt>problemes/errors-problemes.pdf</tt> and
+      <tt>practiques/errors-practiques.tex</tt>.
+* <tt>practiques/errors-practiques.tex</tt>: Practices ($\LaTeX$ source code).
+* <tt>problemes/errors-problemes.pdf</tt>: Problems ($\LaTeX$ source code).
 
 ### Source code for the practices
 
