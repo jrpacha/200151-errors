@@ -21,7 +21,7 @@ Activitat | Related source code
  5| <tt>mcLaurinExp.cc</tt>
  6| <tt>expM.cc<tt>
 
-Use <tt>$ make</tt> to build all the programs. Remember,
+Use <tt>$src/make</tt> to build all the programs. Remember,
 
 <p align="center">
 <em>Seven programs and One Makefile to compile them all...</em>
