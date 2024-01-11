@@ -7,8 +7,8 @@
 * <tt>problemes.sty</tt>: $\LaTeX$ style file to compile 
       <tt>problemes/errors-problemes.tex</tt> and
       <tt>practiques/errors-practiques.tex</tt>.
-* <tt>practiques/errors-practiques.tex</tt>: Practices ($\LaTeX$ source code).
-* <tt>problemes/errors-problemes.pdf</tt>: Problems ($\LaTeX$ source code).
+* <tt>practiques/errors-practiques.tex</tt>: practices ($\LaTeX$ source code).
+* <tt>problemes/errors-problemes.pdf</tt>: problems ($\LaTeX$ source code).
 
 ### Source code for the practices
 
