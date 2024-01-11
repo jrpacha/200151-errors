@@ -1,0 +1,675 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Tema 1. Problemes. Aritmètica Finita i Control d'Errors
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[a4paper,twoside,12pt]{exam}
+\printanswers
+\usepackage{problemes}
+
+\def\assignatura{\`{A}lgebra Lineal Num\`{e}rica}
+\def\codi{200151}
+\def\GrauMaster{MAT}
+\def\EscolaFacultat{FME}
+
+\hypersetup{
+  pdfauthor   = {Equip Docent ALN},
+  pdftitle    = {Problemes Tema 1: Arim\`{e}tica Finita i Control d'Errors},
+  pdfsubject  = {Problemes}
+}
+
+\renewcommand{\solutiontitle}%
+{\noindent\textbf{Solució:}\enspace}
+
+\pagestyle{head}
+\firstpageheader{\EscolaFacultat}%
+		{\assignatura~(\codi)}%
+		{\thepage}%
+\firstpageheadrule
+
+\runningheader{}{\thesection.~\currentname}{\thepage}
+\runningheadrule
+
+\bracketedpoints
+\unframedsolutions
+
+\lstdefinestyle{myc++}{
+	language=[11]C++,
+  	frame=single,
+	numbers=left,
+	numberstyle=\small,
+%	framexleftmargin=15pt,
+%	numbersep=8pt,
+	captionpos=b,
+	showstringspaces=flase,
+	escapeinside={(*}{*)},
+	mathescape
+}
+
+%\captionsetup[lstlisting]{font=footnotesize}
+\lstset{inputpath=../src/}
+
+
+\renewcommand{\lstlistingname}{Llistat}% Listing -> Llistat
+\renewcommand{\lstlistlistingname}%
+{Índex dels \lstlistingname s}% List of Listings -> Índex dels llistats
+
+\newcommand{\includecode}[2][c]
+ {\lstinputlisting[caption=#2, escapechar=,
+   style=custom#1]{#2}<!---->}
+
+% Example
+% \includecode{sched.c}
+% \includecode[asm]{sched.s}
+
+\newcommand{\osnp}[1]{\oldstyle{\np{#1}}}
+\npdecimalsign{.}
+\npthousandsep{\,}
+\npproductsign{\times}%
+
+\renewcommand{\choicelabel}{(\roman{choice})}
+
+\begin{document}
+\section{Aritmètica finita i control d'errors}
+%\setcounter{problema}{0}
+
+\begin{questions}
+%--------------------------------- Problema 1 --------------------------------
+\question\label{prob:1}
+Calculeu $f(x) = 1 - \cos(x)$ amb aritmètica de coma flotant de $\osnp{6}$
+dígits, per a $|x| < \osnp{e-3}$. És fiable el resultat? Feu el mateix amb la
+representació de $f(x)$ 
+\begin{displaymath}
+	f(x) = \frac{\sin^{2}(x)}{1 + \cos(x)}.
+\end{displaymath}
+Trobeu una altra representació alternativa per a $f(x)$ que sigui vàlida per a
+$|x|$ petit.
+\begin{solution}
+	Sigui $\osnp{0}\le x \le \osnp{e-3}$. Aleshores $\cos(\osnp{e-3})\le\cos(x)
+	\le \cos(\osnp{0}) = \osnp{1}$ i, per tant
+\begin{displaymath}
+	\fl{A}{\cos(10^{-3})}
+	\le \fl{A}{\cos(x)} \le \fl{A}{\osnp{1}} = \osnp{1}.
+\end{displaymath}
+%\osnprounddigits{6}
+Tenim doncs $\fl{A}{\cos(\numprint{e-3})} = \fl{A}{\osnp{0.9999995000}\ldots} = 1$
+(6 dígits amb arrodoniment). Aleshores: $\osnp{1}\le\fl{A}{\cos(x)}\le\fl{A}{\osnp{1}} =
+\osnp{1}$, amb la qual cosa $\fl{A}{\cos(x)} = \osnp{1}$, per a $|x|\le\osnp{e-3}$. En
+conclusió, si fem servir aritmètica de coma flotant de $\osnp{6}$ dígits amb
+arrodoniment, llavors:
+\begin{displaymath}
+	\fl{A}{\osnp{1}-\cos(x)} = \osnp{1} -\fl{A}{\cos(x)} = 
+	\osnp{1} - \osnp{1} = \osnp{0}.
+\end{displaymath}
+Aquesta situació ---on es resten resultats molt semblants---es coneix com
+\emph{cance\lgem ació}. Les cance\lgem acions magnifiquen la propagació dels
+erros i hem d'evitar-les als nostres càlculs. En aquest cas podem solucionar el
+problema de cance\lgem acions re-formulant $f(x)$:
+\begin{displaymath}
+	f(x) = \left(\osnp{1}-\cos(x)\right)\frac{\osnp{1}+\cos(x)}%
+	{\osnp{1} + \cos(x)}
+	= \frac{\osnp{1}-\cos^{\osnp{2}}(x)}{\osnp{1}+\cos(x)} 
+	= \frac{\sin^{\osnp{2}}(x)}{\osnp{1}+\cos(x)}.
+\end{displaymath}
+Així per exemple, per $x_{\osnp{0}} = \osnp{e-3}$, tenim:
+\begin{align*}
+	\fl{A}{\sin^{2}(\osnp{e-3}} &= \fl{A}{\sin(\osnp{e-3})}\cdot
+	\fl{A}{\sin(\osnp{e-3})} = \left(\osnp{e-3}\right)^{2} = \osnp{0.1e-5},\\
+	\fl{A}{\osnp{1}+\cos(\osnp{e-3})} &=
+	\osnp{1} + \fl{A}{\cos(\osnp{e-3})} =
+	\osnp{1} + \fl{A}{\osnp{0.999 999 500 000 2}} = 1 + 1 = 2
+\end{align*}
+(per a $6$ dígits amb arrodoniment), d'on:
+\begin{displaymath}
+	\fl{A}{f(\osnp{e-5})} = 
+	\fl{A}{\frac{\oldstyle{\osnp{0.1e-5}}}{\osnp{0.2e1}}} = \fl{A}{\osnp{0.5e-6}} = 
+	\osnp{0.5e-6}.
+\end{displaymath}
+D'altra banda, per $x$ petit podem fer servir $f(x) = 1 - \cos(x) 
+= 2\sin^{2}\left(\dfrac{x}{2}\right)\approx\dfrac{x^{2}}{2}$.
+\begin{ex}
+	Considereu una fórmula equivalent $f(x) = \osnp{1} -\cos(x) =
+	2\sin^{2}\left(\dfrac{x}{2}\right)$ i comproveu que
+			$\fl{A}{1-\cos(x)} =
+			\fl{A}{2\sin^{2}\left(\dfrac{x}{2}\right)} =
+			2\fl{A}%
+			{\left(\osnp{0.5e-3}\right)^{2}} = \osnp{0.5e-6}$. 
+\end{ex}
+\end{solution}
+
+%--------------------------------- Problema 2 --------------------------------
+\question\label{prob:2}
+Se sap que la sèrie $\sum_{n=1}^{\infty}1/n$ és divergent. No obstant
+això, si la intentem ``sumar'' en un ordinador usant precisió simple (per
+qüestions de temps) dóna un valor concret. Trobeu aquest valor i expliqueu
+aquest fenomen. 
+\begin{solution}
+	Escrivim el programa \verb^sumhs.cc^ en C/C$++$ amb el codi que es
+	mostra al Llistat~\ref{lst:sumhs}. Si el compilem, fent 
+\begin{lstlisting}
+	g++ sumhs.cc -osumhs
+\end{lstlisting}
+i l'executem amb la comanda \lstinline^./sumhs^, obtenim: 
+\verb^for n =  2097151, sum = 1.54036827e+01^.
+
+\noindent
+El que succeeix és que, a mesura que anem sumant, el terme que afegim és més
+petit, de manera que per a $N$ suficientment gran,  
+\begin{displaymath}
+	\fl{}{\sum_{n=1}^{N+1}\frac{1}{n}} =
+		\fl{}{\sum_{n=1}^{N}\frac{1}{n}},
+\end{displaymath}
+($N=\osnp{2097151}$), i el terme $\frac{1}{N+1}$ no afegeix dígits significatius a la
+suma. 
+\end{solution}
+\ifprintanswers
+\lstset{style=myc++}
+\lstinputlisting[
+     caption={\lstinline^sumhs.cc^: ``suma'' de la sèrie harmònica.},
+		 label=lst:sumhs,
+		 float=t]{sumhs.cc}%{../src/sumhs.cc}
+     
+\fi
+
+%--------------------------------- Problema 3 --------------------------------
+\question\label{prob:3}
+Si usem un ordinador que comet errors relatius fitats per $\epsilon$ en la
+representació i en les operacions aritmètiques, fiteu l'error comès en el càlcul
+de $\sum_{i=1}^{n} x_{i}$.
+%
+\begin{solution}
+(Veure~\cite{AubanellBD91}). Mirem com es propaga l'error relatiu a mesura que
+anem afegint termes a la suma:
+\begin{enumerate}[label=(\roman*), ref=(\roman*)]
+	\item $x_{i}$ es representa com $X_{i} = \fl{}{x_{i}} =
+		x_{i}(1+\delta_{i})$, amb $\delta_{i} < \epsilon$,
+		$i=1,2,\dots,n$.
+	\item $X_{1}+X_{2}$ es representa com
+		$S_{2} := \fl{}{X_{1}+X_{2}} = \left(X_{1}+X_{2}\right) 
+		\left(1+\delta_{+2}\right)$, amb $|\delta_{+2}|< \epsilon$. Així:
+		\begin{align}
+			S_{2} =\left[ x_{1}\left(1 + \delta_{1}\right) +
+			x_{2}\left(1 + \delta_{2}\right)\right]
+			\left(1 + \delta_{+2}\right)
+			      &= \left(x_{1} + x_{2} + x_{1}\delta_{1}
+				      + x_{2}\delta_{2}\right)\left(1 +
+			      \delta_{+2}\right)\nonumber\\
+			      &= x_{1} + x_{2} + x_{1}\delta_{1} +
+			      x_{2}\delta_{2} + \left(x_{1} +
+			      x_{2}\right)\delta_{+2} + \dots,
+			      \label{eq:S2}
+		\end{align}
+		on els punts ($\dots$) denoten termes no lineals en $\delta_{1},
+		\delta_{2}, \delta_{+2}$.
+	\item $S_{2} + X_{3}$ es representa com $S_{3} = \fl{}{S_{2} + X_{3}}
+		=\left(S_{2} + X_{3}\right)\left(1 + \delta_{+3}\right)$, amb
+		$|\delta_{+3}| < \epsilon$. Així,
+		\begin{align*}
+			S_{3} &=\left\{\left[x_{1}\left(1 + \delta_{1}\right) +
+				x_{2}\left(1 + \delta_{2}\right)\right]
+				\left(1+\delta_{+2}\right) +
+				x_{3}\left(1+\delta_{3}\right)\right\}
+				\left(1 + \delta_{+3}\right)\\
+			      &= x_{1} + x_{2} + x_{3}
+			      	+ x_{1}\delta_{1} + x_{2}\delta_{2} 
+			      	+ x_{3}\delta_{3}
+			      	+ \left(x_{1} + x_{2}\right)\delta_{+2}
+			      	+ \left(x_{1} + x_{2} + x_{3}\right)\delta_{+3}
+			      	+ \dots
+		\end{align*}
+%		\begin{align*}
+%			S_{3} &=\left[x_{1}\left(1 + \delta_{1}\right) +
+%				x_{2}\left(1 + \delta_{2}\right)\right]
+%				\left(1+\delta_{+2}\right) +
+%			x_{3}\left(1+\delta_{3}\right)\right\}
+%			\left(1 + \delta_{+3}\right)\\
+%			      &=\left[
+%				      \left(x_{1} + x_{2} + x_{1}\delta_{1}
+%				      + x_{2}\delta_{2}\right)
+%				      \left(1 + \delta_{+2}\right)
+%			      + x_{3} + x_{3}\delta_{3}\right]
+%			      \left(1 + \delta_{+3}\right)\\
+%			      &=
+%			      \left(x_{1} + x_{2} + x_{3} + x_{1}\delta_{1}
+%				      + x_{2}\delta_{2} + x_{3}\delta_{3}
+%				      + \left(x_{1} + x_{2}\right)\delta_{+2}
+%			      +\dots\right)\left(1+\delta_{+3}\right)\\
+%			      &=
+%			      x_{1} + x_{2} + x_{3}
+%			      + x_{1}\delta_{1} + x_{2}\delta_{2} 
+%			      + x_{3}\delta_{3}
+%			      + \left(x_{1} + x_{2}\right)\delta_{+2}
+%			      + \left(x_{1} + x_{2} + x_{3}\right)\delta_{+3}
+%			      + \dots
+%		\end{align*}
+		On ara, els punts ($\ldots$) denoten els termes no lineals en
+		$\delta_{1}, \delta_{2}, \delta_{3}, \delta_{+2}, \delta_{+3}$.
+\end{enumerate}
+En general, $S_{i-1}+X_{i}$ es representa com $S_{i} = 
+	\fl{}{S_{i-1}+X_{i}} =\left(S_{i-1}+X_{i}\right)\left(1+
+	\delta_{+i}\right)$, amb $|\delta_{+i}|<\epsilon$, 
+	$i=3,4,\dots,n$ on suposem $n\ge 3$. Per inducció es comprova que, per a
+	\begin{align}
+		S_{n} &= x_{1} + x_{2} + \dots + x_{n}\nonumber\\
+		      &\quad+ x_{1}\delta_{1} + x_{2}\delta_{2} + \dots 
+		       + x_{n}\delta_{n}\nonumber\\
+		      &\quad+ \left(x_{1} + x_{2}\right)\delta_{+2} 
+	               + \left(x_{1} + x_{2} + x_{3}\right)\delta_{+3} 
+		       + \dots 
+		       +\left(x_{1} + x_{2} + \dots + x_{n}\right)\delta_{+n} 
+		       +\dots,\label{eq:Sn}
+	\end{align}
+	per a $n=2,3,\dots$; i on les e\lgem ipsis ($\ldots$) al final denoten
+	els termes no lineals en $\delta_{1}, \delta_{2},\dots,\delta_{n}$;
+	$\delta_{+2},\delta_{+3},\dots,\delta_{+n}$. En efecte, per a $n=2$, la
+	fórmula~\eqref{eq:Sn} es redueix a la l'equació~\eqref{eq:S2}. Suposem,
+	a continuació, que~\eqref{eq:Sn} és cert per a $n = N > 2$ i comprovem
+	si amb aquesta hipòtesi (d'inducció), la fórmula~\eqref{eq:Sn} es
+	satisfà també per a $n = N+1$:
+	\begin{align*}
+		S_{N+1} &= \fl{}{S_{N} + X_{N+1}} \\
+			&= \left(S_{N} 
+		           + X_{N+1}\right)\left(1 + \delta_{+(N+1)}\right)\\
+			&= \left[
+			        x_{1} + x_{2} + \dots + x_{n} 
+			          + x_{1}\delta_{1} + x_{2}\delta_{2} 
+				  + \dots + x_{N}\delta_{N}\right.\\
+			&\quad+\left(x_{1} + x_{2}\right)\delta_{+2}
+				  + \left(x_{1} + x_{2} +
+				  x_{3}\right)\delta_{+3}+ \dots\\
+			&\quad\left.
+				  + \left(x_{1} + x_{2} + \dots 
+				  + x_{n}\right)\delta_{+N} 
+				  + x_{N+1}\left(1 + \delta_{N+1}\right)
+				  +\dots\right]
+				  \left(1 + \delta_{+(N+1)}\right)\\
+			&= x_{1} + x_{2} + x_{3} + \dots + 
+				   x_{N} + x_{N+1}
+				 + x_{1}\delta_{1} + x_{2}\delta_{2} 
+				+ x_{3}\delta_{3} + \dots 
+				+ x_{N}\delta_{N} 
+				+ x_{N+1}\delta_{N+1}\\
+			&\quad  + \left(x_{1} + x_{2}\right)\delta_{+2}
+			        + \left(x_{1} + x_{2} + x_{3}\right)\delta_{+3}
+			        + \left(x_{1} + x_{2} + x_{3} 
+				        + x_{4}\right)\delta_{+4}
+				+ \dots\\
+			&\quad  + \left(x_{1} + x_{2} + x_{3} +\dots 
+					+ x_{N}\right)\delta_{+N}
+					+ \left(x_{1} + x_{2} + x_{3}+\dots 
+						+ x_{N} + x_{N+1}\right)
+						\delta_{+(N+1)} + \dots
+	\end{align*}
+	Això prova~\eqref{eq:Sn} per a tot $n\in\N$ amb $n\ge 2$. Si
+	a~\eqref{eq:Sn} restem $\sum_{i=1}^{n}x_{i}$, agafem valor absolut i acotem
+	$|\delta_{+i}| < \epsilon$, per a $i=2,3,\dots,n$ tenim:
+	\begin{displaymath}
+		\left|S_{n} - \sum\limits_{i=1}^{n}x_{i}\right| \le
+		\sum_{i=1}^{n} |x_{i}||\delta_{i}| + 
+		\left[(n-1)|x_{1}| + (n-1)|x_{2}| +
+		(n-2)|x_{3} + \dots + 2|x_{n-1}| + |x_{n}|\right]
+		\epsilon + \dots,
+	\end{displaymath}
+	on els punts denoten ara els termes no lineals en $\delta_{1}$,
+	$\delta_{2},\dots,\delta_{n}$; $\epsilon$. Si a continuació, com abans,
+	acotem $|\delta_{i}|\le\epsilon$, per a $i=1,2,\dots,n$; tenim:
+	\begin{displaymath}
+		\left|S_{n} - \sum\limits_{i=1}^{n}x_{i}\right| \le
+		\left(n|x_{1}| + n|x_{2}| + (n-1)|x_{3}| 
+		+ \dots + 3|x_{n-1}| + 2|x_{n}|\right)\epsilon + \dots,
+	\end{displaymath}
+	on els punts indiquen termes d'ordre superior en $\epsilon$
+	($\epsilon^{2}$, $\epsilon^{3},\dots$). Si suposem que podem prescindir
+	d'aquests termes que ---procedeixen dels termes no lineals en els errors
+	$\delta_{1}$, $\delta_{2},\delta,\delta_{n}$; $\delta_{+2}$,
+	$\delta_{+3},\dots,\delta_{+n}$---s'obté la següent fita per a l'error  
+	absolut de la suma,
+	\begin{equation}\label{eq:BoundErrorS}
+		\left|S_{n} - \sum\limits_{i=1}^{n}x_{i}\right| \le
+		\left(n|x_{1}| + n|x_{2}| + (n-1)|x_{3}| 
+		+ \dots + 3|x_{n-1}| + 2|x_{n}|\right)\epsilon. 
+	\end{equation}
+	En conseqüència, com s'assenyala a~\cite{AubanellBD91}, pàg.~35,
+	aquesta cota es pot minimitzar ``si es sumen els termes en ordre
+	creixent de valor absolut, començant amb els de valor absolut més petit
+	i acabant amb els de valor absolut més gran''.
+\end{solution}
+
+%--------------------------------- Problema 4 --------------------------------
+\question\label{prob:4}
+Useu aritmètica de $3$ dígits amb tall per a calcular la suma 
+$\sum_{i=1}^{15} 1/i^{2}$ primer en l'ordre natural, 
+$\osnp{1} + \osnp{1}/\osnp{4} + \dots + \osnp{1}/\osnp{225}$,
+i després a l'inrevés, $\osnp{1}/\osnp{225} + \osnp{1}/\osnp{196} +\dots +
+\osnp{1}/\osnp{4} + \osnp{1}$. Decidiu quin és el mètode més exacte de tots dos. 
+\begin{solution}
+Com que treballem amb $3$ dígits amb tall, $\epsilon <
+\osnp{10}^{\osnp{1}-\osnp{3}}=\osnp{e-2}$. Llavors si $S_{15}$ és la suma
+que s'obté en l'ordre natural (decreixent) i $\bar{S}_{15}$ la que obtenim
+sumant en ordre creixent de termes, i.e., $\osnp{1}/\osnp{255} + 
+\osnp{1}/\osnp{196} + \dots + \osnp{1}/\osnp{4} + \osnp{1}$, aplicant la
+fórmula~\eqref{eq:BoundErrorS} del problema~\ref{prob:3} resulta,
+\begin{align*}
+	S_{15} = \osnp{0.153e1},&\
+	\left|S_{15} - \left(\osnp{1} +
+	\frac{\osnp{1}}{\osnp{4}} + \frac{\osnp{1}}{\osnp{9}}+
+	\dots + \frac{\osnp{1}}{\osnp{196}} +
+	 \frac{\osnp{1}}{\osnp{255}}\right)\right|\\
+        &\quad\le\left(\osnp{15}\cdot\osnp{1} +
+	\osnp{15}\cdot\frac{\osnp{1}}{\osnp{2}^{\osnp{2}}} + 
+	\osnp{14}\cdot\frac{\osnp{1}}{\osnp{3}^{\osnp{2}}} +\dots
+	+ \osnp{3}\cdot\frac{\osnp{1}}{\osnp{14}^{\osnp{2}}}
+	+ \osnp{2}\frac{1}{\cdot{15}^{\osnp{2}}}\right)
+	\cdot\osnp{e-2} = \osnp{0.22549},\\
+		\bar{S}_{15} = \osnp{0.157e1},&\ 
+		\left|\bar{S}_{15} - \left(\osnp{1} +
+		\frac{\osnp{1}}{\osnp{4}} + \frac{\osnp{1}}{\osnp{9}}+
+		\dots +	\frac{\osnp{1}}{\osnp{196}} +
+		 \frac{\osnp{1}}{\osnp{255}}\right)\right|\\
+	       &\quad\le 
+	\left(\osnp{15}\cdot\frac{\osnp{1}}{\osnp{15}^{\osnp{2}}} +
+	      \osnp{15}\cdot\frac{\osnp{1}}{\osnp{14}^{\osnp{2}}} +
+	      \osnp{14}\cdot\frac{\osnp{1}}{\osnp{13}^{\osnp{2}}} +\dots +
+	      \osnp{3}\cdot\frac{\osnp{1}}{\osnp{2}^{\osnp{2}}} +
+      \osnp{2}\cdot\osnp{1}\right)\osnp{e-2} = \osnp{0.04894}.
+	\end{align*}
+Fent el mateix càlcul amb $\osnp{16}$ dígits significatius ($t =
+\osnp{16}$) es troba, per a la suma en ordre creixent, $\bar{S}_{15} =
+\osnp{1.580440283}\approx\osnp{0.158e1}$.
+\end{solution}
+
+%--------------------------------- Problema 5 --------------------------------
+\question\label{prob:5}
+Demostreu que en l'operació $\sqrt{x}$ l'error relatiu és aproximadament la
+meitat de l'error relatiu en les dades. Direm que l'operació de fer $\sqrt{x}$
+és una operació \emph{segura} respecte de l'error relatiu. Feu patent la
+``inseguretat'' de l'operació $f(x) = \dfrac{1}{1-x^{2}}$ per a $x\approx\osnp{1}$.
+(Suposeu que tenim errors només en la representació de les dades). 
+\begin{solution}
+%  
+%	Solució del problema~\ref{prob:5}.  
+%
+Definim
+\begin{displaymath}
+ e_{a}\left(f\left(\tilde{x}\right)\right) := f\left(\tilde{x}\right) -
+ f\left(x\right),\qquad
+  e_{r}\left(f\left(\tilde{x}\right)\right) := \frac{f\left(\tilde{x}\right) -
+  f\left(x\right)}{f\left(x\right)},
+\end{displaymath}
+on suposem que $x \ne 0, f(x)\ne 0$, i que $f$ té derivada contínua en algun interval
+obert, $J_{x}$, $x\in J_{x}, 0\notin J_{x}$, on $f$ no s'anul·la. 
+%Considerem
+%$\tilde{x}$ un punt de l'interval $J_{x}$ proper a $x$.
+Llavors, si $\epsilon_{a}\left(\tilde{x}\right)$ i
+$\epsilon_{r}\left(\tilde{x}\right)$ són fites dels valors absoluts dels
+errors absolut i relatiu de $x$ respectivament, tals que 
+\begin{equation}\label{eq:sigma-eaar}
+  \left|e_{a}\left(\tilde{x}\right)\right| := \left|\tilde{x} - x\right|
+  \le \sigma\epsilon_{a}\left(\tilde{x}\right),\qquad
+  \left|e_{r}\left(\tilde{x}\right)\right| := \left|\frac{\tilde{x} - x}{x}\right|
+  \le \sigma\epsilon_{r}\left(\tilde{x}\right)
+\end{equation}
+par algun $0 < \sigma < 1$, aleshores 
+%Llavors, si
+%$\epsilon_{a}\left(f\left(\tilde{x}\right)\right)$ i
+%$\epsilon_{r}\left(f\left(\tilde{x}\right)\right)$ denoten fites dels
+%valors absoluts dels errors $e_{a}\left(f\left(\tilde{x}\right)\right)$ i
+%$e_{r}\left(f\left(\tilde{x}\right)\right)$ respectivament, i.e,
+%Aleshores,
+\begin{enumerate}[label=(\roman*), ref=(\roman*)]
+\item \label{item:p-err-1}  $\epsilon_{a}\left(f\left(\tilde{x}\right)\right) 
+  :=\left|f'\left(\tilde{x}\right)\right|\epsilon_{a}\left(\tilde{x}
+  \right)$,
+%\end{enumerate}
+%i, si $f(x)\ne 0$,
+%\begin{enumerate}[resume*]
+\item \label{item:p-err-2} 
+  $\epsilon_{r}\left(f\left(\tilde{x}\right)\right) := \left|
+  \dfrac{f'\left(\tilde{x}\right)}{f\left(\tilde{x}\right)}\right|
+  \epsilon_{r}\left(\tilde{x}\right)$,
+\end{enumerate}
+són fites dels valors absoluts de
+$e_{a}\left(f\left(\tilde{x}\right)\right)$ i
+$e_{r}\left(f\left(\tilde{x}\right)\right)$, i.e., 
+\begin{equation}\label{eq:fites-ea-er}
+  \left|e_{a}\left(f\left(\tilde{x}\right)\right)\right| \le
+  \epsilon_{a}\left(f\left(\tilde{x}\right)\right),\qquad
+  \left|e_{r}\left(f\left(\tilde{x}\right)\right)\right| \le
+  \epsilon_{r}\left(f\left(\tilde{x}\right)\right).
+\end{equation}
+quan $\tilde{x}$ està suficientment a prop de $x$. En efecte,
+%
+\begin{enumerate}[label=(\roman*), ref=(\roman*)]
+  \item Aplicant el desenvolupament de Taylor, 
+\begin{displaymath}
+  f\left(\tilde{x}\right):= f(x) + f'\left(\tilde{x}\right)
+  \left(\tilde{x}-x\right) 
+  + \gamma\left(\tilde{x}\right)\left(\tilde{x}-x\right)
+\end{displaymath}
+%\begin{displaymath}  
+%  \left|e_{a}\left(f\left(\tilde{x}\right)\right)\right| :=
+%    \left|f\left(\tilde{x}\right) - f\left(x\right)\right| =
+%    \left|f'\left(\xi_{x}\right)\right|\left|\tilde{x} - x\right|,
+%\end{displaymath}
+amb $\gamma\left(\tilde{x}\right) \to 0$ quan $\tilde{x}\to x$. 
+Per tant, 
+\begin{equation}\label{eq:eafx}
+  e_{a}\left(f\left(\tilde{x}\right)\right) := f\left(\tilde{x}\right) -
+  f(x) = f'\left(\tilde{x}\right)\left(1 +
+    \gamma\left(\tilde{x}\right)\right)e_{a}\left(\tilde{x}\right) 
+\end{equation}
+%amb $\xi_{x}\in\langle x, \tilde{x}\rangle$, on $\langle x,
+%\tilde{x}\rangle = \left[x,\tilde{x}\right]$, si $\tilde{x} > x$, 
+%amb $\xi_{x}\in\langle x, \tilde{x}\rangle$, on $\langle x,
+%\tilde{x}\rangle = \left[x,\tilde{x}\right]$, si $\tilde{x} < x$.
+%Aleshores,
+%\begin{displaymath}
+%  \left|e_{a}\left(f\left(\tilde{x}\right)\right)\right| =
+%  \left|f'\left(\xi_{x}\right)\right|\left|\tilde{x} - x\right| =
+%  \left|f'\left(\xi_{x}\right)\right|\left|e_{a}\left(\tilde{x}\right)\right| \le
+%    \left|f'\left(\xi_{x}\right)\right|\epsilon_{a}\left(\tilde{x}\right)
+%    =: \epsilon_{a}\left(f\left(\tilde{x}\right)\right).
+%\end{displaymath}
+d'on tenim
+\begin{displaymath}
+  \left|e_{a}\left(f\left(\tilde{x}\right)\right)\right| = 
+  \left|f'\left(\tilde{x}\right)\right|
+  \left|e_{a}\left(\tilde{x}\right)
+  \right|\left| 1 + \gamma\left(\tilde{x}\right)\right|\le
+  \left|f'\left(\tilde{x}\right)\right|
+  \sigma\epsilon_{a}\left(\tilde{x}\right)
+  \left| 1 + \gamma\left(\tilde{x}\right)\right| 
+  = \sigma\left(1 + \left|\gamma\left(\tilde{x}\right)\right|\right)
+  \epsilon_{a}\left(f\left(\tilde{x}\right)\right)
+\end{displaymath}
+i, donat que $\gamma\left(\tilde{x}\right)\to 0$ quan $\tilde{x}\to x$, 
+es conclou que si $\tilde{x}$ és suficientment proper a $x$,
+$\epsilon_{a}\left(f\left(\tilde{x}\right)\right)$ és una fita 
+superior del valor absolut de $e_{a}\left(f\left(\tilde{x}\right)\right)$,
+la qual cosa prova la primera de les desigualtats a~\eqref{eq:fites-ea-er}.
+%
+%Si $|e_{a}\left(\tilde{x}\right)| := \left|\tilde{x}-
+%x\right|$ és petit (escrivim $\left|e_{a}\left(\tilde{x}\right)\right|\ll
+%1$), llavors també $\left|\xi_{x} - \tilde{x}\right| \le
+%\left|e_{a}\left(\tilde{x}\right)\right|\ll 1$ 
+%i, com que
+%$f'$ és contínua, tenim que $f'\left(\xi_{x}\right)\approx
+%f'\left(\tilde{x}\right)$. Per tant:
+%\begin{displaymath}
+%  \epsilon_{a}\left(f\left(\tilde{x}\right)\right) :=
+%  \left|f'\left(\xi_{x}\right)\right|\epsilon_{a}\left(\tilde{x}\right)\approx
+%  \left|f'\left(\tilde{x}\right)\right|\epsilon_{a}\left(\tilde{x}\right).
+%\end{displaymath}
+\item Fent servir~\eqref{eq:eafx} i les propietats de $f$ a l'entorn 
+$J_{x}$ del punt $x$ descrit adalt es comprova (exercici!),
+\begin{equation}\label{eq:erfx}
+  e_{r}\left(f\left(x\right)\right) = \left(1 +
+    \zeta\left(\tilde{x}\right)\right)
+    \frac{f'\left(\tilde{x}\right)}{f\left(\tilde{x}\right)}e_{a}
+    \left(\tilde{x}\right)
+\end{equation}
+amb $\zeta\left(\tilde{x}\right)\to 0$ quan $\tilde{x}\to x$.
+D'altra banda, per definició, d'error relatiu,
+\begin{displaymath}
+    e_{a}\left(\tilde{x}\right) := xe_{r}\left(\tilde{x}\right) =
+    \tilde{x}\left(1 -
+    \frac{\tilde{x}-x}{\tilde{x}}\right)e_{r}\left(\tilde{x}\right).
+\end{displaymath}
+Si es substitueix aquesta última espressió per a
+$e_{a}\left(\left(\tilde{x}\right)\right)$ a~\eqref{eq:erfx} s'obté
+\begin{equation}\label{eq:erfx-1}
+  e_{r}\left(f\left(\tilde{x}\right)\right) = \left(1 +
+  \eta\left(\tilde{x}\right)\right)\frac{f'\left(\tilde{x}\right)\tilde{x}}
+  {f\left(\tilde{x}\right)}e_{r}\left(\tilde{x}\right)
+\end{equation}
+amb $\eta\left(\tilde{x}\right)\to 0$ quan $\tilde{x}\to x$. Per últim,
+prenent valors absoluts a l'equació~\eqref{eq:erfx-1} i acotant fent
+servir~\eqref{eq:sigma-eaar} s'arriba a,
+\begin{align*}
+  \left|e_{r}\left(f\left(\tilde{x}\right)\right)\right| &=
+  \left| 1 + \eta\left(\tilde{x}\right) \right|
+  \left|\frac{f'\left(\tilde{x}\right)\tilde{x}}
+  {f\left(\tilde{x}\right)}\right|\left|e_{r}\left(\tilde{x}\right)\right|
+  \le
+  \sigma\left( 1 + \left|\eta\left(\tilde{x}\right)\right| \right)
+  \left|\frac{f'\left(\tilde{x}\right)\tilde{x}}
+  {f\left(\tilde{x}\right)}\right|\epsilon_{r}\left(\tilde{x}\right)\\
+  &= \sigma\left(1 + \left|\eta\left(\tilde{x}\right)\right| \right)
+  \epsilon_{r}\left(f\left(\tilde{x}\right)\right)
+\end{align*}
+i, atès que $\eta\left(\tilde{x}\right)\to 0$ quan $\tilde{x}\to 0$, es
+conclou, amb els mateixos arguments que a~\ref{item:p-err-1}, que  
+si $\tilde{x}$ és suficientment proper a $x$,
+$\epsilon_{r}\left(f\left(\tilde{x}\right)\right)$ és una fita 
+superior del valor absolut de $e_{r}\left(f\left(\tilde{x}\right)\right)$,
+la qual cosa prova la segona de les desigualtats a~\eqref{eq:fites-ea-er}.
+\end{enumerate}
+Considerem $f(x) = \sqrt{x}$, en un interval $I$ que no contingui el $0$.
+Sigui $x\in I$ el valor exacte i $\tilde{x}\in I$ una aproximació a $x$.
+D'acord amb les definicions~\ref{item:p-err-1}, \ref{item:p-err-2},
+\end{solution}
+
+%--------------------------------- Problema 6 --------------------------------
+\question\label{prob:6}
+Donat el sistema d'equacions lineals
+\begin{align*}
+	3\,x + a\,y &= 10\\
+	5\,x + b\,y &= 20
+\end{align*}
+on $a = \osnp{2.100}\osnp{+-5e-4}$ i $b = \osnp{3.300}\osnp{+-5e-4}$; amb 
+quina exactitud pot ser determinat $x+y$? (Suposant operacions exactes).
+\begin{solution}
+	Solució del problema~\ref{prob:6}.
+\end{solution}
+
+%--------------------------------- Problema 7 --------------------------------
+\question\label{prob:7}
+Treballant amb $5$ xifres decimals, calculeu
+\begin{displaymath}
+	\sqrt[k]{\osnp{2.15283}} - \sqrt[k]{\osnp{2.15263}},\qquad\qquad
+	k=2,3,4.
+\end{displaymath}
+\begin{parts}
+	\part Directament.
+	\part Usant fórmules millors des del punt de vista numèric. (Indicació:
+		Feu la divisió de polinomis $(a^{k} - b^{k})/(a-b)$).
+	\part Compareu els resultats i comenteu-los.
+\end{parts}
+\begin{solution}
+	Solució del problema~\ref{prob:7}.
+\end{solution}
+
+%\question\label{prob:8}
+%Trobeu una expressió de la fita approximada de l'error absolut en avaluar 
+%la funció  $f(x) = \rme^{x^{2}}$, on es suposa que els erros relatius en la
+%representació dels nombres, en el producte i en l'exponecial són, en valor
+%absolut, menors respectivament que $\epsilon_{r}$, $\epsilon_{*}$ i 
+%$\epsilon_{\exp}$. 
+%\begin{solution}
+%	Solució del problema~\ref{prob:8}.
+%\end{solution}
+
+%--------------------------------- Problema 8 --------------------------------
+\question\label{prob:8}
+Es vol calcular $f_{n}(x)$, on $f_{n}(x) = n!\left[\rme^{x} -
+	\left(1 + x + \frac{x^{2}}{2!} + \dots + \frac{x^{n}}{n!}\right)
+\right]$, per a $x = \osnp{1}$, $n=\osnp{0},\osnp{1},\osnp{2},\dots$
+\begin{parts}
+	\part Demostreu que se satisfà la següent llei de recurrència
+	\begin{displaymath}
+		f_{n+1}(x) = (n+1) f_{n}(x) - x^{n+1},
+	\end{displaymath}
+	\part Calculeu $f_{n}(1)$, $n=1\div 10$ amb aritmètica de coma
+	flotant amb $5$ dígits significatius. És fiable el resultat?
+	Què es pot fer per a calcular $f_{5}(1)$?
+\end{parts}
+\begin{solution}
+	Solució del prooblema~\ref{prob:8}.
+\end{solution}
+
+%--------------------------------- Problema 9 --------------------------------
+\question\label{prob:9}
+Usant un mètode recurrent, calculeu el valor de les integrals
+\begin{displaymath}
+	I_{j} = \int_{0}^{1} x^{j}\sin(\pi x)\,\rmd x,
+\end{displaymath}
+($j=2,4,\dots,20$). Estudieu l'estabilitat del mètode trobat.
+\textbf{Nota:} en general, direm que un mètode és \emph{estable} si esmorteeix
+els errors fets en les aproximacions. Quan, pel contrari, els amplifica, direm
+que el mètode és \emph{inestable}.
+\begin{solution}
+	Solució del problema~\ref{prob:9}
+\end{solution}
+
+%--------------------------------- Problema 10 -------------------------------
+\question\label{prob:10}
+Volem calcular
+$a = \left(\osnp{7} - \osnp{4}\sqrt{\osnp{3}}\right)^{\osnp{4}}$
+emprant el valor aproximat $\osnp{1.73205}$ per a $\sqrt{\osnp{3}}$.
+Prenem dues fórmules per a calcular $a$:
+
+\begin{oneparchoices}
+	\choice $\dfrac{\osnp{1}}{\left(\osnp{7} + 
+	\osnp{4}\sqrt{\osnp{3}}\right)^{4}}$, 
+	\choice $\dfrac{\osnp{1}}{\osnp{18817} +\osnp{10864}
+	\sqrt{\osnp{3}}}$.
+\end{oneparchoices}
+
+Quina és la més adequada des del punt de vista numèric (suposant que
+les operacions es fan sense errors)?
+\begin{solution}
+	Solució del problema~\ref{prob:10}.
+\end{solution}
+
+%--------------------------------- Problema 11 -------------------------------
+\question\label{prob:11}
+Doneu una expressió equivalent per a cadascuna de les fórmules següents
+que sigui millor des del punt de vista numèric, quan $\varepsilon$ és
+molt més petit que $x$.
+\begin{parts}
+	\part $\dfrac{1}{\sqrt{x-\varepsilon}} - \dfrac{1}{\sqrt{x}}$.
+	\part $\sin(x+\varepsilon) - \sin(x)$.
+	\part $\cos(x+\varepsilon) - \cos(x)$.
+	\part $\displaystyle\int_{x}^{x+\varepsilon}\dfrac{\rmd t}{t}$.
+\end{parts}
+\begin{solution}
+	Solució del problema~\ref{prob:11}. 
+\end{solution}
+
+%--------------------------------- Problema 12 -------------------------------
+\question\label{prob:12}
+Amb quina exactitud s'ha de mesurar el radi d'una esfera i amb quants 
+decimals cal donar el nombre $\pi$ perquè el seu volum es conegui amb 
+un error relatiu menor que el $\osnp{0.01}$\%? Considereu ambdós 
+efectes per separat.
+\begin{solution}
+	Solució del problema~\ref{prob:12}.
+\end{solution}
+\end{questions}
+
+%-------------------------------- Referències --------------------------------
+\ifprintanswers 
+\bibliographystyle{plain}
+%\nocite{*}
+\bibliography{alnRefs}
+\fi
+
+\end{document}

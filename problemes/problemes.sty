@@ -1,5 +1,4 @@
 % Page size ===================================================================
-
 \usepackage[a4paper,
             inner=1.25cm,
 	    outer=1cm,
@@ -8,11 +7,14 @@
 	    headsep=0.75cm]{geometry}
 
 \usepackage{amsmath}
-\usepackage{amsthm}
+%\usepackage{amsthm}
+\usepackage[amsmath,thmmarks]{ntheorem}
+
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{indentfirst}
-\usepackage{enumerate}
+%\usepackage{enumerate}
+\usepackage{enumitem}
 \usepackage{ragged2e}
 \usepackage{mathtools}
 \usepackage{array}
@@ -24,11 +26,18 @@
 \usepackage[np]{numprint}
 \usepackage{listings}
 \usepackage{float}
-\usepackage[labelsep=period]{caption}
+\usepackage{etoolbox}
+\AtBeginEnvironment{solution}{\setlength{\parindent}{100pt}}
 
-\usepackage[utf8]{inputenc}
+%\usepackage[utf8]{inputenc}
 \usepackage[catalan]{babel}
+\selectlanguage{catalan}
+\usepackage[noline,endfloat]{algorithm2e}
+\SetAlgorithmName{Algorisme}{algorime}{Llista d'algorismes}
 
+\usepackage[labelsep=period,hypcap=false]{caption}
+\usepackage{nonfloat}
+\usepackage{multirow}
 \usepackage{titleref}
 \makeatletter
 \newcommand*{\currentname}{\TR@currentTitle}
@@ -45,6 +54,8 @@
 \newcolumntype{R}[1]{>{\PreserveBackslash\raggedleft}p{#1}}
 \newcolumntype{L}[1]
 {>{\PreserveBackslash\raggedright}p{#1}}
+
+
 
 % Numbers =====================================================================
 \newcommand{\N}{\mathbb{N}}
@@ -74,6 +85,7 @@
 % Changing formula size =======================================================
 \newcommand\ts{\textstyle}
 \newcommand\ds{\displaystyle}
+\newcommand*{\Scale}[2][4]{\scalebox{#1}{\ensuremath{#2}}}%
 
 % Brackets and norms ==========================================================
 \newcommand\p[1]{\left(#1\right)}
@@ -121,6 +133,7 @@
 \newcommand{\Gra}[1]{\ensuremath{\mathcal{G}\!\left(#1\right)}}
 \newcommand{\QED}{\ensuremath{\square}}
 \DeclareMathOperator*{\limc}{\text{\rm l\'{\i}m}}
+\DeclareMathOperator*{\maxc}{\text{m\`{a}x}}
 \def\cprime{\/$'$}
 \def\p{{\partial}}
 \def\dfrac{\displaystyle\frac}
@@ -140,16 +153,22 @@
 %  {5pt plus 1pt minus 1pt} % HEADSPACE
 %  {}          % CUSTOM-HEAD-SPEC
 
-\newtheorem{prop}{Proposici\'{o}}[section]
+%\theoremsymbol{\ensuremath\triangleright}
+\newtheorem{prop}{Proposici\'{o}}%[section]
 \newtheorem{lemma}{Lema}
 \newtheorem*{corollary}{Coro\lgem ari}
-\theoremstyle{definition}
-\newtheorem{definition}{Definici\'{o}}[section]
+%\theoremstyle{definition}
+\theoremstyle{plain}
+\newtheorem{definition}{Definici\'{o}}%[section]
+\newtheorem*{demo}{Demostraci\'{o}}  
 \newtheorem*{notation}{Notaci\'{o}}
 \newtheorem*{cp}{Cas prticular}
-\newtheorem{rem}{Remarca}[section]
+
+\newtheorem{rem}{Remarca}%[section]
 \newtheorem{exmp}{Exemple}[section]
 \newtheorem{ex}{Exercici}[section]
+\newtheorem{nota}{Nota}
+\newtheorem*{nt}{Nota}
 \newenvironment{sol}
 {\renewcommand\qedsymbol{$\triangleright$}\vspace{-0,75\baselineskip}
   \begin{proof}[$\triangleleft$ Soluci\'{o}]}
@@ -181,7 +200,8 @@
 %	 pdfsubject  = {Problemes}
 %}
 %
-\pdfadjustspacing=1
+%\pdfadjustspacing=1
+\adjustspacing=1
 \usepackage{url}
 
 % Macro para a\~{n}adir un link al MathSciNet ======================================
